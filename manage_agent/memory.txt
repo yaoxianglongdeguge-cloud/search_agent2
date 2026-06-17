@@ -1,0 +1,70 @@
+**核心职责：**
+- 作为流程管家/规划者，负责一次性规划从Springer Nature搜索文献的全流程
+- 先向用户呈现完整JSON规划流程，用户说"执行"后才执行
+
+**可调用的agent及指令规范：**
+- **word_agent**：提取关键词（需明确告知提取类型："提取用于API搜索的关键词"和"提取用于筛选对比的关键词"分开进行）
+- **trans_agent**：将搜索关键词构造为Springer Nature API适配格式
+- **find_agent**：读取关键词文件，发送API搜索请求并下载文献
+- **data_agent**：读取筛选关键词和已下载文献，进行筛选
+
+**指令风格偏好**（用户多次修改后确认）：
+
+❌ **用户明确反对的：**
+- 告知步骤编号信息
+- 举例子（如列举具体关键词）
+- 说具体文件路径
+- 未获允许前擅自调用写入函数
+
+✅ **用户肯定的成功案例（说"执行"确认的规划版本）：**
+
+以下是在不同主题上用户说"执行"的规划版本，指令写法得到用户认可：
+
+**成功案例1：关于"循环伏安法实验流程"（加入trans_agent后）**
+```json
+{
+    "id": "1",
+    "agent": "word_agent",
+    "caller": "manage_agent",
+    "out_input": "提取用于向Springer Nature API发送搜索请求的关键词，内容关于循环伏安法实验流程。请将结果写入文件。",
+    "need": []
+},
+{
+    "id": "2",
+    "agent": "word_agent",
+    "caller": "manage_agent",
+    "out_input": "提取用于对搜索到的文献进行筛选对比的关键词，内容关于循环伏安法实验流程。请将结果写入不同文件。",
+    "need": []
+},
+{
+    "id": "3",
+    "agent": "trans_agent",
+    "caller": "manage_agent",
+    "out_input": "读取word_agent生成的搜索关键词文件，将关键词构造成Springer Nature API适配的格式。",
+    "need": [1]
+},
+{
+    "id": "4",
+    "agent": "find_agent",
+    "caller": "manage_agent",
+    "out_input": "读取trans_agent生成的API格式关键词，向Springer Nature API发送搜索请求，并将搜索到的文献下载到本地。",
+    "need": [3]
+},
+{
+    "id": "5",
+    "agent": "data_agent",
+    "caller": "manage_agent",
+    "out_input": "读取word_agent生成的筛选关键词文件和已下载的文献，使用筛选关键词对文献进行筛选。",
+    "need": [2, 4]
+}
+```
+
+**成功案例2：关于"循环伏安法"（简洁版）**
+与上述结构相同，仅out_input中主题改为"循环伏安法"，用户也说"执行"确认。
+
+**成功案例中的指令写作要点：**
+1. 对word_agent：明确区分"提取用于API搜索的关键词"和"提取用于筛选对比的关键词"，只说"写入文件"和"写入不同文件"（不说具体文件名）
+2. 对trans_agent：说"读取word_agent生成的搜索关键词文件"，不说文件名
+3. 对find_agent：说"读取trans_agent生成的API格式关键词"，不说文件名
+4. 对data_agent：说"读取word_agent生成的筛选关键词文件和已下载的文献"
+5. 不在指令中举例子、不说步骤编号、不提其他agent存在

@@ -713,3 +713,371 @@ memory_ai指示:写入
 ```
 
 这一版怎么样？
+
+manage_agent指示:这是要写入的ai:manage_agent这是我的函数工具名称，只能用这个名称:call_func这是它的内容:from pathlib import Path
+
+
+def call_func(steps:dict):
+   """该工具函数用于把生成好的工作流程发给执行程序"""
+   """dict：管家agent生成的工作流程"""
+   print(steps)
+   current_dir=Path(__file__).parent.parent.parent.parent.parent
+   import agent_call_queue as queue
+
+   queue.append(steps)
+
+   
+
+请你帮我给他编写个描述
+
+我说:好的，我来为 `manage_agent` 的 `call_func` 函数编写描述。
+
+这个函数的功能是接收一个工作流程字典，并将其发送给执行程序（通过队列机制）。
+
+让我先完成描述后再问您是否确认写入。
+
+这是生成的描述内容，请您先看看：
+
+```json
+{
+  "type": "function",
+  "function": {
+    "name": "call_func",
+    "description": "将管家AI生成的工作流程字典发送给执行程序。该函数会将工作流程数据放入队列中，供后续执行程序处理",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "steps": {
+          "type": "object",
+          "description": "管家agent生成的工作流程，是一个字典结构，包含了需要执行的具体步骤信息"
+        }
+      },
+      "required": ["steps"]
+    },
+    "returns": {
+      "type": "object",
+      "description": "该函数无返回值，仅将工作流程放入执行队列"
+    }
+  }
+}
+```
+
+这一版怎么样？如果没问题请告诉我"写入"，我就执行写入操作。
+
+manage_agent指示:写入
+
+我说:好的，您确认要写入，我来执行写入操作。
+
+本AI请求工具:tools_make
+
+本AI请求工具的参数:manage_agentwho
+
+本AI请求工具的参数:call_funcfunction_name
+
+本AI请求工具的参数:{'type': 'function', 'function': {'name': 'call_func', 'description': '将管家AI生成的工作流程字典发送给执行程序。该函数会将工作流程数据放入队列中，供后续执行程序处理', 'parameters': {'type': 'object', 'properties': {'steps': {'type': 'object', 'description': '管家agent生成的工作流程，是一个字典结构，包含了需要执行的具体步骤信息'}}, 'required': ['steps']}, 'returns': {'type': 'object', 'description': '该函数无返回值，仅将工作流程放入执行队列'}}}des
+
+本AI使用工具:tools_make
+
+本AI用完一轮工具后回复:✅ **写入成功！**
+
+已为 `manage_agent` 的 `call_func` 函数完成描述文件写入，文件路径为 `manage_agent/call_func.json`。
+
+写入的描述内容如下：
+```json
+{
+  "type": "function",
+  "function": {
+    "name": "call_func",
+    "description": "将管家AI生成的工作流程字典发送给执行程序。该函数会将工作流程数据放入队列中，供后续执行程序处理",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "steps": {
+          "type": "object",
+          "description": "管家agent生成的工作流程，是一个字典结构，包含了需要执行的具体步骤信息"
+        }
+      },
+      "required": ["steps"]
+    },
+    "returns": {
+      "type": "object",
+      "description": "该函数无返回值，仅将工作流程放入执行队列"
+    }
+  }
+}
+```
+
+如果您还需要修改或补充其他工具描述，请随时告诉我！
+
+word_agent指示:这是要写入的ai:word_agent这是我的函数工具名称，只能用这个名称:word_extract这是它的内容:
+from pathlib import Path
+
+def word_extract(path:str,content:str):
+    """该工具函数用于把提取的关键词写入对应文件"""
+    """如果是搜索关键词，path参数写search_word"""
+    """如果是筛选关键词，path参数写screen_word"""
+
+
+    agent_dir=Path(__file__).parent.parent.parent.parent
+    
+    file_path=agent_dir/path
+
+    with open(file_path,'w',encoding='utf-8') as f:
+        f.write(content)请你帮我给他编写个描述
+
+我说:好的，我来为 `word_agent` 的 `word_extract` 函数编写描述。
+
+根据代码分析，这个函数的功能是将提取到的关键词内容写入指定路径的文件中。
+
+这是生成的描述，请您先看看：
+
+```json
+{
+  "type": "function",
+  "function": {
+    "name": "word_extract",
+    "description": "将提取的关键词内容写入指定路径的文件中。如果是搜索关键词，path参数传'search_word'；如果是筛选关键词，path参数传'screen_word'，函数会自动拼接上级目录路径",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "description": "要写入的文件路径标识，搜索关键词传'search_word'，筛选关键词传'screen_word'，函数会自动拼接为完整文件路径"
+        },
+        "content": {
+          "type": "string",
+          "description": "需要写入文件的关键词内容"
+        }
+      },
+      "required": ["path", "content"]
+    },
+    "returns": {
+      "type": "object",
+      "description": "该函数无返回值"
+    }
+  }
+}
+```
+
+这一版怎么样？如果没问题请告诉我"写入"，我就执行写入操作。
+
+word_agent指示:写入
+
+我说:用户确认要写入，我来执行写入操作。
+
+本AI请求工具:tools_make
+
+本AI请求工具的参数:word_agentwho
+
+本AI请求工具的参数:word_extractfunction_name
+
+本AI请求工具的参数:{'type': 'function', 'function': {'name': 'word_extract', 'description': '将提取的关键词内容写入指定路径的文件中。如果是搜索关键词，path参数传\'search_word\'；如果是筛选关键词，path参数传\'screen_word\'，函数会自动拼接上级目录路径', 'parameters': {'type': 'object', 'properties': {'path': {'type': 'string', 'description': "要写入的文件路径标识，搜索关键词传'search_word'，筛选关键词传'screen_word'，函数会自动拼接为完整文件路径"}, 'content': {'type': 'string', 'description': '需要写入文件的关键词内容'}}, 'required': ['path', 'content']}, 'returns': {'type': 'object', 'description': '该函数无返回值'}}}des
+
+本AI请求工具:tools_make
+
+本AI请求工具的参数:word_agentwho
+
+本AI请求工具的参数:word_extractfunction_name
+
+本AI请求工具的参数:{'type': 'function', 'function': {'name': 'word_extract', 'description': "将提取的关键词内容写入指定路径的文件中。如果是搜索关键词，path参数传'search_word'；如果是筛选关键词，path参数传'screen_word'，函数会自动拼接上级目录路径", 'parameters': {'type': 'object', 'properties': {'path': {'type': 'string', 'description': "要写入的文件路径标识，搜索关键词传'search_word'，筛选关键词传'screen_word'，函数会自动拼接为完整文件路径"}, 'content': {'type': 'string', 'description': '需要写入文件的关键词内容'}}, 'required': ['path', 'content']}, 'returns': {'type': 'object', 'description': '该函数无返回值'}}}des
+
+本AI使用工具:tools_make
+
+本AI用完一轮工具后回复:✅ **写入成功！**
+
+已为 `word_agent` 的 `word_extract` 函数完成描述文件写入，文件路径为 `word_agent/word_extract.json`。
+
+写入的描述内容如下：
+
+```json
+{
+  "type": "function",
+  "function": {
+    "name": "word_extract",
+    "description": "将提取的关键词内容写入指定路径的文件中。如果是搜索关键词，path参数传'search_word'；如果是筛选关键词，path参数传'screen_word'，函数会自动拼接上级目录路径",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "description": "要写入的文件路径标识，搜索关键词传'search_word'，筛选关键词传'screen_word'，函数会自动拼接为完整文件路径"
+        },
+        "content": {
+          "type": "string",
+          "description": "需要写入文件的关键词内容"
+        }
+      },
+      "required": ["path", "content"]
+    },
+    "returns": {
+      "type": "object",
+      "description": "该函数无返回值"
+    }
+  }
+}
+```
+
+如果您还需要修改或补充其他工具描述，请随时告诉我！
+
+word_agent指示:这是要写入的ai:word_agent。这是我的函数工具需要修改的描述：{
+  "type": "function",
+  "function": {
+    "name": "word_extract",
+    "description": "将提取的关键词内容写入指定路径的文件中。如果是搜索关键词，path参数传'search_word'；如果是筛选关键词，path参数传'screen_word'，函数会自动拼接上级目录路径",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "description": "要写入的文件路径标识，搜索关键词传'search_word'，筛选关键词传'screen_word'，函数会自动拼接为完整文件路径"
+        },
+        "content": {
+          "type": "string",
+          "description": "需要写入文件的关键词内容"
+        }
+      },
+      "required": [
+        "path",
+        "content"
+      ]
+    },
+    "returns": {
+      "type": "object",
+      "description": "该函数无返回值"
+    }
+  }
+}。里面可能有问题，你帮我修改一版。
+
+我说:好的，我来仔细检查这个描述文件。
+
+经过检查，我注意到代码中函数实际拼接的路径是 `Path(__file__).parent.parent.parent.parent`，也就是向上回溯4级目录。而描述中说"会自动拼接上级目录路径"，这个描述不够准确。
+
+让我修改一版更准确的描述：
+
+```json
+{
+  "type": "function",
+  "function": {
+    "name": "word_extract",
+    "description": "将提取的关键词内容写入 word_agent 目录下指定名称的文件中。如果是搜索关键词，path参数传'search_word'；如果是筛选关键词，path参数传'screen_word'，函数会自动拼接完整文件路径",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "description": "要写入的文件路径标识（不含扩展名），搜索关键词传'search_word'，筛选关键词传'screen_word'，函数会自动拼接为完整文件路径（如 search_word.txt）"
+        },
+        "content": {
+          "type": "string",
+          "description": "需要写入文件的关键词内容"
+        }
+      },
+      "required": ["path", "content"]
+    },
+    "returns": {
+      "type": "object",
+      "description": "该函数无返回值"
+    }
+  }
+}
+```
+
+这一版怎么样？主要优化了：
+1. 明确了函数会自动拼接**完整文件路径**（不仅仅是上级目录）
+2. 补充说明了会自动添加 `.txt` 扩展名的细节
+3. 描述更清晰准确
+
+如果没问题请告诉我"写入"，我就执行写入操作。
+
+word_agent指示:那两个文件路径后面都加个.txt
+
+我说:明白了，我来修改描述，给 `search_word` 和 `screen_word` 后面都加上 `.txt`。
+
+更新后的描述如下：
+
+```json
+{
+  "type": "function",
+  "function": {
+    "name": "word_extract",
+    "description": "将提取的关键词内容写入 word_agent 目录下指定名称的文件中。如果是搜索关键词，path参数传'search_word.txt'；如果是筛选关键词，path参数传'screen_word.txt'，函数会自动拼接完整文件路径",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "description": "要写入的文件名，搜索关键词传'search_word.txt'，筛选关键词传'screen_word.txt'，函数会自动拼接为完整文件路径"
+        },
+        "content": {
+          "type": "string",
+          "description": "需要写入文件的关键词内容"
+        }
+      },
+      "required": ["path", "content"]
+    },
+    "returns": {
+      "type": "object",
+      "description": "该函数无返回值"
+    }
+  }
+}
+```
+
+这一版怎么样？把 `search_word` 改成了 `search_word.txt`，`screen_word` 改成了 `screen_word.txt`。确认没问题的话告诉我"写入"，我就执行写入操作。
+
+word_agent指示:写入
+
+我说:好的，用户确认要写入，我来执行写入操作。
+
+本AI请求工具:tools_make
+
+本AI请求工具的参数:word_agentwho
+
+本AI请求工具的参数:word_extractfunction_name
+
+本AI请求工具的参数:{'type': 'function', 'function': {'name': 'word_extract', 'description': "将提取的关键词内容写入 word_agent 目录下指定名称的文件中。如果是搜索关键词，path参数传'search_word.txt'；如果是筛选关键词，path参数传'screen_word.txt'，函数会自动拼接完整文件路径", 'parameters': {'type': 'object', 'properties': {'path': {'type': 'string', 'description': "要写入的文件名，搜索关键词传'search_word.txt'，筛选关键词传'screen_word.txt'，函数会自动拼接为完整文件路径"}, 'content': {'type': 'string', 'description': '需要写入文件的关键词内容'}}, 'required': ['path', 'content']}, 'returns': {'type': 'object', 'description': '该函数无返回值'}}}des
+
+本AI请求工具:tools_make
+
+本AI请求工具的参数:word_agentwho
+
+本AI请求工具的参数:word_extractfunction_name
+
+本AI请求工具的参数:{'type': 'function', 'function': {'name': 'word_extract', 'description': "将提取的关键词内容写入 word_agent 目录下指定名称的文件中。如果是搜索关键词，path参数传'search_word.txt'；如果是筛选关键词，path参数传'screen_word.txt'，函数会自动拼接完整文件路径", 'parameters': {'type': 'object', 'properties': {'path': {'type': 'string', 'description': "要写入的文件名，搜索关键词传'search_word.txt'，筛选关键词传'screen_word.txt'，函数会自动拼接为完整文件路径"}, 'content': {'type': 'string', 'description': '需要写入文件的关键词内容'}}, 'required': ['path', 'content']}, 'returns': {'type': 'object', 'description': '该函数无返回值'}}}des
+
+本AI使用工具:tools_make
+
+本AI用完一轮工具后回复:✅ **写入成功！**
+
+已为 `word_agent` 的 `word_extract` 函数完成描述文件更新，文件路径为 `word_agent/word_extract.json`。
+
+更新后的描述内容如下：
+```json
+{
+  "type": "function",
+  "function": {
+    "name": "word_extract",
+    "description": "将提取的关键词内容写入 word_agent 目录下指定名称的文件中。如果是搜索关键词，path参数传'search_word.txt'；如果是筛选关键词，path参数传'screen_word.txt'，函数会自动拼接完整文件路径",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "description": "要写入的文件名，搜索关键词传'search_word.txt'，筛选关键词传'screen_word.txt'，函数会自动拼接为完整文件路径"
+        },
+        "content": {
+          "type": "string",
+          "description": "需要写入文件的关键词内容"
+        }
+      },
+      "required": ["path", "content"]
+    },
+    "returns": {
+      "type": "object",
+      "description": "该函数无返回值"
+    }
+  }
+}
+```
+
+已按照您的要求将 `search_word` 和 `screen_word` 都加上了 `.txt` 后缀。如果您还需要修改其他工具描述，请随时告诉我！

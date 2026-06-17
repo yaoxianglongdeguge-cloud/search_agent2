@@ -1,7 +1,7 @@
 import importlib
 from ai_clone_class import ai_clone
 import json
-import agent_call_queue
+
 
 
 if __name__=="__main__":
@@ -14,13 +14,19 @@ if __name__=="__main__":
    agent_creat=ai_clone.Clone_ai(name)
    agents[name]=agent_creat
 
-  agent_call_queue=[]    #根据中心管理agent规划的全流程逐个执行，一次发一整个流程
+
+  agent_call_queue=[]
   queue_two=[]   #处理完的在这里先存着
 
 
   while True:
+   with open("agent_call_queue.json",'r',encoding='utf-8') as f:
+    agent_call_queue=json.load(f)    #根据中心管理agent规划的全流程逐个执行，一次发一整个流程
 
     if agent_call_queue:
+     with open("agent_call_queue.json",'w',encoding='utf-8') as f:
+      m=[]
+      json.dump(m,f,ensure_ascii=False, indent=2)
      print("agent运行锁已打开")#agent流程开始运行之后，用户不能插手，除非强行中断
 
      for called in agent_call_queue:

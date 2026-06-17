@@ -1,0 +1,23 @@
+{
+  "type": "function",
+  "function": {
+    "name": "call_func",
+    "description": "将管家AI生成的工作流程字典发送给执行程序。该函数会将工作流程数据放入队列中，供后续执行程序处理",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "steps": {
+          "type": "object",
+          "description": "管家agent生成的工作流程，是一个字典结构，包含了需要执行的具体步骤信息"
+        }
+      },
+      "required": [
+        "steps"
+      ]
+    },
+    "returns": {
+      "type": "object",
+      "description": "该函数无返回值，仅将工作流程放入执行队列"
+    }
+  }
+}

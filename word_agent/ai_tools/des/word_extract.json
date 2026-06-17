@@ -1,0 +1,28 @@
+{
+  "type": "function",
+  "function": {
+    "name": "word_extract",
+    "description": "将提取的关键词内容写入 word_agent 目录下指定名称的文件中。如果是搜索关键词，path参数传'search_word.txt'；如果是筛选关键词，path参数传'screen_word.txt'，函数会自动拼接完整文件路径",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "description": "要写入的文件名，搜索关键词传'search_word.txt'，筛选关键词传'screen_word.txt'，函数会自动拼接为完整文件路径"
+        },
+        "content": {
+          "type": "string",
+          "description": "需要写入文件的关键词内容"
+        }
+      },
+      "required": [
+        "path",
+        "content"
+      ]
+    },
+    "returns": {
+      "type": "object",
+      "description": "该函数无返回值"
+    }
+  }
+}
